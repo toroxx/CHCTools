@@ -1,0 +1,14 @@
+/* ui */
+@import 'common.scss';
+@import 'titlebar.scss';
+
+
+
+main {
+    background: #fff;
+    height: 100%;
+
+    flex: 1 1 0;
+    padding: 2px;
+    overflow-y: auto;
+}
