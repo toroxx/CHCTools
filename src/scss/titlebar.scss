@@ -1,6 +1,6 @@
 header {
     -webkit-app-region: drag;
-    height: 24px;
+    height: 26px;
     background-color: #03c2fc;
     color: #000;
     font-weight: bold;
@@ -21,7 +21,7 @@ header {
         right: 6px;
     }
 
-    #close-btn {
+    #close-btn, #add-btn {
         background-color: #03c2fc;
         margin: 0px;
         padding: none;
