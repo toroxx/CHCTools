@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 const EditView = (props) => {
     const { db, searchParams } = props;
 
-    const _id = searchParams.get('_id');
+    const _id = searchParams.get('_id') || "";
     const [data, setData] = useState({ name: "", icon: "", "app_path": "", "_id": _id });
 
     let txt_name = React.createRef();
@@ -12,23 +12,24 @@ const EditView = (props) => {
     let txt_apppath = React.createRef();
 
     useEffect(() => {
-        db.find({ '_id': _id }, function (err, docs) {
-            if (err == null) {
-                setData(docs[0]);
-            }
-        });
+        if (_id != "") {
+            db.find({ '_id': _id }, function (err, docs) {
+                if (err == null) {
+                    setData(docs[0]);
+                }
+            });
+        }
     }, []);
 
 
     return (
         <div className="window" >
             <header>
-                <div id="title">Edit</div>
+                <div id="title">{(_id == "") ? "Add" : "Edit"}</div>
                 <div id="title-bar-btns">
-                    <button id="close-btn" onClick={() => { window.close() }}>X</button>
+                    <button className="btn" id="close-btn" onClick={() => { window.close() }}>X</button>
                 </div>
             </header>
-
             <main>
                 <table style={{ width: "100%" }}>
                     <tr>
@@ -62,11 +63,30 @@ const EditView = (props) => {
                     let txt_apppath_val = txt_apppath.current.value;
                     setData({ name: txt_name_val, icon: txt_icon_val, "app_path": txt_apppath_val, "_id": _id });
 
-                    db.update({ "_id": _id }, { name: txt_name_val, icon: txt_icon_val, "app_path": txt_apppath_val }, {}, function () {
-                        window.close();
-                    });
 
+                    if (_id != "") {
+                        db.update({ "_id": _id }, { name: txt_name_val, icon: txt_icon_val, "app_path": txt_apppath_val }, {}, function () {
+                            window.close();
+                        });
+                    } else {
+                        if (txt_name_val == "" || txt_icon_val == "" || txt_apppath_val == "") {
+                            alert("Please enter the values");
+                        } else {
+                            db.insert({ name: txt_name_val, icon: txt_icon_val, "app_path": txt_apppath_val }, function () {
+                                window.close();
+                            });
+                        }
+                    }
                 }}>Save</button>
+                {" "}
+                <button type="button" style={{ display: (_id == "" ? "none" : "") }}
+                    onClick={() => {
+
+                        db.remove({ "_id": _id }, {}, function () {
+                            window.close();
+                        });
+                    }}
+                >Del</button>
             </main>
         </div>
     );
