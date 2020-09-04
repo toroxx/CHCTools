@@ -23,7 +23,7 @@
     "electron": "^7.1.2",
     "electron-packager": "^14.1.1",
     "extract-text-webpack-plugin": "^3.0.2",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "sass-loader": "^8.0.0",
